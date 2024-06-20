@@ -2,7 +2,7 @@
   class Widget {
     constructor({ position = "bottom-right" } = {}) {
       this.position = this.getPosition(position);
-      this.open = false;
+      this.open = true;
       this.initialise();
       this.createStyle();
     }
@@ -22,11 +22,15 @@
         (key) => (container.style[key] = this.position[key])
       );
       document.body.appendChild(container);
-      container.classList.add("widget-container");
+
+       this.contenContainer = document.createElement('div');
+      container.appendChild(this.contenContainer)
+      this.contenContainer.classList.add("widget-container");
+      
       const questionElement = document.createElement("div");
-      questionElement.textContent =
-        "How likely are you to recommend us to a friend or colleague?";
-      container.appendChild(questionElement);
+      questionElement.textContent = "How likely are you to recommend us to a friend or colleague?";
+      this.contenContainer.appendChild(questionElement);
+
       questionElement.classList.add("question-text");
 
       const scaleElement = document.createElement("div");
@@ -38,14 +42,26 @@
         scaleElement.appendChild(numberElement);
         numberElement.classList.add("rating-btn");
       }
-       
-      container.appendChild(scaleElement);
+      const buttonContainer = document.createElement('div');
+      buttonContainer.classList.add('button-container')
+
+     this.contenContainer.appendChild(scaleElement);
+
       const closeIcon=document.createElement('img');
       closeIcon.src='https://cdn.jsdelivr.net/gh/ashishchaudhari1857/Widget/imgs/images.png';
       this.closeIcon=closeIcon;
+      closeIcon.classList.add('icon');
+
       const SueveyIcon=document.createElement('img');
-      closeIcon.src='https://cdn.jsdelivr.net/gh/ashishchaudhari1857/Widget/imgs/images.png';
-      this.closeIcon=SueveyIcon;
+      SueveyIcon.src='https://cdn.jsdelivr.net/gh/ashishchaudhari1857/Widget/imgs/survey.png';
+      this.SueveyIcon=SueveyIcon;
+      SueveyIcon.classList.add('icon', 'hidden');
+
+      buttonContainer.appendChild(closeIcon);
+      buttonContainer.appendChild(SueveyIcon);
+      buttonContainer.addEventListener('click', this.toggleOpen.bind(this));
+      container.appendChild(buttonContainer)
+
     }
 
     createStyle() {
@@ -77,8 +93,29 @@
      .widget-container .rating-btn:hover {
       background-color: #d0d0d0;
     }
+      .hidden{
+      display:none;
+      }
+
+       
     `;
     
+    }
+
+    toggleOpen(){
+      this.open=!this.open
+
+      if(this.open){
+        this.SueveyIcon.classList.add('hidden');
+        this.closeIcon.classList.remove('hidden');
+        this.contenContainer.classList.remove('hidden')
+
+      }else{
+        this.SueveyIcon.classList.remove('hidden');
+        this.closeIcon.classList.add('hidden');
+        this.contenContainer.classList.add('hidden')
+
+      }
     }
   }
 
