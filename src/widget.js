@@ -38,8 +38,14 @@
         scaleElement.appendChild(numberElement);
         numberElement.classList.add("rating-btn");
       }
-      
+       
       container.appendChild(scaleElement);
+      const closeIcon=document.createElement('img');
+      closeIcon.src='https://cdn.jsdelivr.net/gh/ashishchaudhari1857/Widget/imgs/images.png';
+      this.closeIcon=closeIcon;
+      const SueveyIcon=document.createElement('img');
+      closeIcon.src='https://cdn.jsdelivr.net/gh/ashishchaudhari1857/Widget/imgs/images.png';
+      this.closeIcon=SueveyIcon;
     }
 
     createStyle() {
