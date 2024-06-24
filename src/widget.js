@@ -23,13 +23,18 @@
       );
       document.body.appendChild(container);
 
-       this.contenContainer = document.createElement('div');
-      container.appendChild(this.contenContainer)
-      this.contenContainer.classList.add("widget-container");
-      
+      this.contentContainer = document.createElement("div");
+      container.appendChild(this.contentContainer);
+      const closeIcon = document.createElement("div");
+      closeIcon.textContent = "X";
+      closeIcon.classList.add("close-icon");
+      this.contentContainer.appendChild(closeIcon);
+      this.contentContainer.classList.add("widget-container");
+
       const questionElement = document.createElement("div");
-      questionElement.textContent = "How likely are you to recommend us to a friend or colleague?";
-      this.contenContainer.appendChild(questionElement);
+      questionElement.textContent =
+        "How likely are you to recommend us to a friend or colleague?";
+      this.contentContainer.appendChild(questionElement);
 
       questionElement.classList.add("question-text");
 
@@ -42,83 +47,81 @@
         scaleElement.appendChild(numberElement);
         numberElement.classList.add("rating-btn");
       }
-      const buttonContainer = document.createElement('div');
-      buttonContainer.classList.add('button-container')
+      const buttonContainer = document.createElement("div");
+      buttonContainer.classList.add("button-container");
 
-     this.contenContainer.appendChild(scaleElement);
+      this.contentContainer.appendChild(scaleElement);
 
-      const closeIcon=document.createElement('img');
-      closeIcon.src='https://cdn.jsdelivr.net/gh/ashishchaudhari1857/Widget/imgs/images.png';
-      this.closeIcon=closeIcon;
-      closeIcon.classList.add('icon');
+      const surveyIcon = document.createElement("img");
+      surveyIcon.src =
+        "https://cdn.jsdelivr.net/gh/ashishchaudhari1857/Widget/imgs/survey.png";
+      this.surveyIcon = surveyIcon;
+      surveyIcon.classList.add("icon", "hidden");
 
-      const SueveyIcon=document.createElement('img');
-      SueveyIcon.src='https://cdn.jsdelivr.net/gh/ashishchaudhari1857/Widget/imgs/survey.png';
-      this.SueveyIcon=SueveyIcon;
-      SueveyIcon.classList.add('icon', 'hidden');
+      buttonContainer.appendChild(surveyIcon);
+      buttonContainer.addEventListener("click", this.toggleOpen.bind(this));
+      closeIcon.addEventListener("click", this.toggleOpen.bind(this));
+      container.appendChild(buttonContainer);
 
-      buttonContainer.appendChild(closeIcon);
-      buttonContainer.appendChild(SueveyIcon);
-      buttonContainer.addEventListener('click', this.toggleOpen.bind(this));
-      container.appendChild(buttonContainer)
-
+      this.closeIcon = closeIcon; // Assigning closeIcon to this instance
     }
 
     createStyle() {
       const styleElement = document.createElement("style");
       document.head.appendChild(styleElement);
       styleElement.innerHTML = `
-      .widget-container {
-        background-color: #f5f5f5;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        max-width: 600px;
-        margin: 0 auto;
-      }
-      .question-text {
-        font-size: 17px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom:12px;
-      }
-     .widget-container .rating-btn {
-      display: inline-block;
-      padding: 7px 14px;
-      color: #555;
-      text-decoration: none;
-      border-radius: 4px;
-      transition: background-color 0.3s ease;
+        .widget-container {
+          background-color: #f5f5f5;
+          padding: 20px;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          max-width: 600px;
+          margin: 0 auto;
+        }
+        .question-text {
+          font-size: 17px;
+          font-weight: bold;
+          color: #333;
+          margin-bottom: 12px;
+        }
+        .widget-container .rating-btn {
+          display: inline-block;
+          padding: 7px 14px;
+          color: #555;
+          text-decoration: none;
+          border-radius: 4px;
+          transition: background-color 0.3s ease;
+        }
+        .widget-container .rating-btn:hover {
+          background-color: #d0d0d0;
+        }
+        .hidden {
+          display: none;
+        }
+        .close-icon {
+  padding: 0.5rem  !important;
+  text-align: end !important;
+  font-size: 1.2rem !important;
+  margin-bottom: 1rem !important;
+  cursor: pointer !important;
+}
+      `;
     }
-     .widget-container .rating-btn:hover {
-      background-color: #d0d0d0;
-    }
-      .hidden{
-      display:none;
-      }
 
-       
-    `;
-    
-    }
+    toggleOpen() {
+      this.open = !this.open;
 
-    toggleOpen(){
-      this.open=!this.open
-
-      if(this.open){
-        this.SueveyIcon.classList.add('hidden');
-        this.closeIcon.classList.remove('hidden');
-        this.contenContainer.classList.remove('hidden')
-
-      }else{
-        this.SueveyIcon.classList.remove('hidden');
-        this.closeIcon.classList.add('hidden');
-        this.contenContainer.classList.add('hidden')
-
+      if (this.open) {
+        this.surveyIcon.classList.add("hidden");
+        this.closeIcon.classList.remove("hidden");
+        this.contentContainer.classList.remove("hidden");
+      } else {
+        this.surveyIcon.classList.remove("hidden");
+        this.closeIcon.classList.add("hidden");
+        this.contentContainer.classList.add("hidden");
       }
     }
   }
 
-  // Attach the Widget class to the global window object
   window.Widget = Widget;
 })();
